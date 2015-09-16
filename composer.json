@@ -1,9 +1,9 @@
 {
-	"name": "jameswatts/cake-markup-language",
+	"name": "rifer/cake-markup-language",
 	"description": "CakePHP plugin providing further abstraction of the View layer by replacing the procedural PHP code with an XML based markup",
 	"type": "cakephp-plugin",
 	"keywords": ["cake", "cakephp", "markup", "language"],
-	"homepage": "https://github.com/jameswatts/cake-markup-language",
+	"homepage": "https://github.com/rifer/cake-markup-language",
 	"license": "MIT",
 	"authors": [
 		{
@@ -17,12 +17,6 @@
 			"homepage": "https://github.com/jameswatts/cake-markup-language/graphs/contributors"
 		}
 	],
-	"support": {
-		"issues": "https://github.com/jameswatts/cake-markup-language/issues",
-		"forum": "http://stackoverflow.com/tags/cakephp",
-		"irc": "irc://irc.freenode.org/cakephp",
-		"source": "https://github.com/jameswatts/cake-markup-language"
-	},
 	"require": {
 		"php": ">=5.3.0",
 		"composer/installers": "*"
