@@ -16,11 +16,13 @@
  * @since         CakePHP(tm) v 2.1.0.0
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace View;
 
-App::uses('Set', 'Utility');
-App::uses('Controller', 'Controller');
-App::uses('View', 'View');
-App::uses('HelperCollection', 'View');
+use App\Utility\Set;
+use App\View\HelperRegistry;
+use Cake\Controller\Controller;
+use Cake\View\View;
+
 
 /**
  * Base class for namespaces in the Cake Markup Language.
@@ -39,7 +41,7 @@ abstract class CmlNamespace extends Object {
 /**
  * Collection of helpers used by the namespace.
  * 
- * @var HelperCollection
+ * @var HelperRegistry
  */
 	public $Helpers = null;
 
@@ -67,12 +69,12 @@ abstract class CmlNamespace extends Object {
 	public function __construct(Controller &$controller, View &$view, array $settings = null) {
 		$this->_Controller = $controller;
 		$this->_View = $view;
-		$this->Helpers = new HelperCollection($view);
+		$this->Helpers = new HelperRegistry($view);
 		if ($settings) {
 			$this->settings = Set::merge($this->settings, $settings);
 		}
 		if (isset($this->settings['helpers'])) {
-			$helpers = HelperCollection::normalizeObjectArray(Set::normalize((array)$this->settings['helpers']));
+			$helpers = HelperRegistry::normalizeObjectArray(Set::normalize((array)$this->settings['helpers']));
 			foreach ($helpers as $name => $properties) {
 				list($plugin, $class) = pluginSplit($properties['class']);
 				$this->$class = $this->Helpers->load($properties['class'], $properties['settings']);

@@ -16,14 +16,16 @@
  * @since         CakePHP(tm) v 2.1.0.0
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace Lib\Error;
 
-App::uses('ExceptionRenderer', 'Error');
+use Cake\Error\ExceptionRenderer;
+
 
 /**
  * Exception Renderer.
  *
  * Captures and handles all unhandled exceptions. Displays helpful framework errors when debug > 1.
- * When debug < 1 a CakeException will render 404 or 500 errors. If an uncaught exception is thrown
+ * When debug < 1 a \Exception will render 404 or 500 errors. If an uncaught exception is thrown
  * and it is a type that ExceptionHandler does not know about it will be treated as a 500 error.
  *
  * @package       Cml.Lib.Error

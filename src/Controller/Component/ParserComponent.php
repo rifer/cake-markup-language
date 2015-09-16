@@ -16,8 +16,11 @@
  * @since         CakePHP(tm) v 2.1.0.0
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace Controller\Component;
 
-App::uses('Component', 'Controller');
+use Cake\Controller\Component;
+use Cake\Controller\Controller;
+
 
 /**
  * The Parser component parses the markup and compiles the output.

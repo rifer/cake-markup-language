@@ -16,8 +16,14 @@
  * @since         CakePHP(tm) v 2.1.0.0
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace View;
 
-App::uses('View', 'View');
+use Cake\Cache\Cache;
+use Cake\Controller\Controller;
+use Cake\Core\App;
+use Cake\Core\Configure;
+use Cake\View\View;
+
 
 /**
  * View, the V in the MVC triad. View interacts with Helpers and view variables passed
@@ -152,7 +158,7 @@ class CmlView extends View {
  * Constructor
  *
  * @param Controller $controller The controller object.
- * @throws CakeException if an unknown namespace is included.
+ * @throws \Exception if an unknown namespace is included.
  */
 	public function __construct(Controller $controller = null) {
 		parent::__construct($controller);
@@ -171,9 +177,9 @@ class CmlView extends View {
 		}
 		foreach ($this->_namespaces as $ns => $plugin) {
 			$class = $ns . 'Namespace';
-			App::uses($class, ((!empty($plugin))? $plugin . '.' : '') . 'View/Namespace');
+			/* TODO: App::uses($class, ((!empty($plugin))? $plugin . '.' : '') . 'View/Namespace'); */
 			if (!class_exists($class)) {
-				throw new CakeException(sprintf('Unknown namespace: %s', $class));
+				throw new \Exception(sprintf('Unknown namespace: %s', $class));
 			}
 			$namespace = new $class($controller, $this, (isset($nsSettings[$ns]))? $nsSettings[$ns] : array());
 			$namespace->load();
@@ -209,11 +215,11 @@ class CmlView extends View {
  *
  * @param string $viewFile Path to the view file.
  * @return string Rendered Elements
- * @throws CakeException if there is an error in the view.
+ * @throws \Exception if there is an error in the view.
  */
 	protected function _parse($viewFile) {
 		$this->_current = $viewFile;
-		$this->getEventManager()->dispatch(new CakeEvent('View.beforeRenderFile', $this, array($viewFile)));
+		$this->getEventManager()->dispatch(new Event('View.beforeRenderFile', $this, array($viewFile)));
 		$markup = file_get_contents($viewFile);
 		ob_start();
 		if ($this->_debug) {
@@ -275,7 +281,7 @@ class CmlView extends View {
 			$content = ob_get_clean();
 		}
 		$this->assign('content', $content);
-		$afterEvent = new CakeEvent('View.afterRenderFile', $this, array($viewFile, $content));
+		$afterEvent = new Event('View.afterRenderFile', $this, array($viewFile, $content));
 		//TODO: For BC puporses, set extra info in the event object. Remove when appropriate
 		$afterEvent->modParams = 1;
 		$this->getEventManager()->dispatch($afterEvent);
@@ -303,7 +309,7 @@ class CmlView extends View {
  *
  * @param string $markup The markup to parse.
  * @return string
- * @throws CakeException if invalid markup syntax is detected.
+ * @throws \Exception if invalid markup syntax is detected.
  */
 	protected function _parseMarkup($markup = '') {
 		if (!preg_match('/^\s*$/', (string) $markup)) {
@@ -341,7 +347,7 @@ class CmlView extends View {
 					'file' => $this->_current,
 					'line' => $line
 				);
-				throw new CakeException('Parser error, invalid syntax');
+				throw new \Exception('Parser error, invalid syntax');
 			}
 			while (preg_match('/(<)(|\/)([\w\-]+)\:/i', $markup, $match, PREG_OFFSET_CAPTURE, $start+$offset)) {
 				$start = $match[1][1];
@@ -381,7 +387,7 @@ class CmlView extends View {
  * @param string $state The tag state.
  * @param string $raw The raw string from the parser.
  * @return string
- * @throws CakeException if the template cannot be found or an error occurs.
+ * @throws \Exception if the template cannot be found or an error occurs.
  */
 	protected function _parseTag($plugin, $ns, $tag, $attrs, $state, $raw) {
 		$file = APP . (($plugin)? 'Plugin' . DS . $plugin . DS : DS) . 'View' . DS . 'Namespace' . DS . $ns . DS . $tag . '.ctp';
@@ -395,7 +401,7 @@ class CmlView extends View {
 		} catch(Exception $e) {
 			ob_end_clean();
 			$this->_parseError();
-			throw new CakeException($e->getMessage());
+			throw new \Exception($e->getMessage());
 		}
 		return $output;
 	}
@@ -580,7 +586,7 @@ class CmlView extends View {
  * @param string $name The name of the view variable.
  * @param boolean $silent Forces null to be returned instead of an exception thrown.
  * @return mixed
- * @throws CakeException if an unknown View variable is requested.
+ * @throws \Exception if an unknown View variable is requested.
  */
 	public function value($name, $silent = false) {
 		$default = null;
@@ -616,7 +622,7 @@ class CmlView extends View {
 							return null;
 						} else {
 							$this->_parseError();
-							throw new CakeException('View variable not found: ' . $name);
+							throw new \Exception('View variable not found: ' . $name);
 						}
 					}
 				}
@@ -637,7 +643,7 @@ class CmlView extends View {
 							return null;
 						} else {
 							$this->_parseError();
-							throw new CakeException('View variable not found: ' . $name);
+							throw new \Exception('View variable not found: ' . $name);
 						}
 					}
 				}
@@ -655,7 +661,7 @@ class CmlView extends View {
 				return null;
 			} else {
 				$this->_parseError();
-				throw new CakeException('View variable not found: ' . $name);
+				throw new \Exception('View variable not found: ' . $name);
 			}
 		}
 	}

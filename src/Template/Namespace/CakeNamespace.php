@@ -16,8 +16,11 @@
  * @since         CakePHP(tm) v 2.1.0.0
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace View\Namespace;
 
-App::uses('CmlNamespace', 'Cml.View');
+use Cake\Core\Configure;
+use Cml\View\CmlNamespace;
+
 
 /**
  * Namespace class for the cake namespace.
