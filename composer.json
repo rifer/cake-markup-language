@@ -8,9 +8,9 @@
 	"authors": [
 		{
 			"name": "James Watts",
-			"email": "james.watts@cakephp.org",
-			"homepage": "http://my.cakephp.org/user/jameswatts",
-			"role": "Author"
+			"role": "Author",
+			"name": "Rodrigo Iglesias",
+			"role": "contributor"
 		},
 		{
 			"name": "CakePHP Community",
