@@ -1,5 +1,5 @@
 {
-	"name": "rifer/cake-markup-language",
+	"name": "rifer/test-update-cml",
 	"description": "CakePHP plugin providing further abstraction of the View layer by replacing the procedural PHP code with an XML based markup",
 	"type": "cakephp-plugin",
 	"keywords": ["cake", "cakephp", "markup", "language"],
