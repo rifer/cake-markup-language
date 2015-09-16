@@ -21,6 +21,11 @@
 		"php": ">=5.3.0",
 		"composer/installers": "*"
 	},
+	"autoload": {
+	    "psr-4": {
+	        "Cml\\": "src"
+	    }
+	},
 	"extra": {
 		"installer-name": "Cml"
 	}
