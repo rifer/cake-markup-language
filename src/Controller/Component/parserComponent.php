@@ -18,6 +18,7 @@
  */
 namespace Controller\Component;
 
+use Cake\Event\Event;
 use Cake\Controller\Component;
 use Cake\Controller\Controller;
 
@@ -133,35 +134,35 @@ class ParserComponent extends Component {
 	public static $renderSettings = array();
 
 /**
- * Called before the Controller::beforeRender(), and before the view class is 
- * loaded, and before Controller::render().
+ * Called before the Event::beforeRender(), and before the view class is 
+ * loaded, and before Event::render().
  *
- * @param Controller $controller Controller with components to beforeRender.
+ * @param Event $event Event with components to beforeRender.
  * @return void
  */
-	public function beforeRender(Controller $controller) {
-		if (!$this->ignoreAction || ((is_string($this->ignoreAction) && $this->ignoreAction != $controller->action) || (is_array($this->ignoreAction) && !in_array($controller->action, $this->ignoreAction)))) {
+	public function beforeRender(Event $event) {
+		if (!$this->ignoreAction || ((is_string($this->ignoreAction) && $this->ignoreAction != $event->action) || (is_array($this->ignoreAction) && !in_array($event->action, $this->ignoreAction)))) {
 			self::$loadSettings['configure'] = $this->loadConfigure;
 			self::$loadSettings['session'] = $this->loadSession;
 			self::$renderSettings['layout'] = $this->renderLayout;
 			self::$renderSettings['element'] = $this->renderElement;
 			self::$renderSettings['fallback'] = $this->fallback;
-			$controller->viewClass = 'Cml.Cml';
+			$event->viewClass = 'Cml.Cml';
 			if (is_array($this->helpers)) {
-				if (!is_array($controller->helpers)) {
-					$controller->helpers = $this->helpers;
+				if (!is_array($event->helpers)) {
+					$event->helpers = $this->helpers;
 				} else {
-					$controller->helpers = array_merge($controller->helpers, $this->helpers);
+					$event->helpers = array_merge($event->helpers, $this->helpers);
 				}
 			}
 			if (is_string($this->layout)) {
-				$controller->layout = $this->layout;
+				$event->layout = $this->layout;
 			}
 			if (is_array($this->cacheAction)) {
-				if (!is_array($controller->cacheAction)) {
-					$controller->cacheAction = $this->cacheAction;
+				if (!is_array($event->cacheAction)) {
+					$event->cacheAction = $this->cacheAction;
 				} else {
-					$controller->cacheAction = array_merge($controller->cacheAction, $this->cacheAction);
+					$event->cacheAction = array_merge($event->cacheAction, $this->cacheAction);
 				}
 			}
 		}
